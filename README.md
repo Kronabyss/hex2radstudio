@@ -39,6 +39,6 @@ Where R, G, and B are the red, green, and blue components (0-255).
 
 ---
 
-**Author:** [Your Name]
+**Author:** Krona.dev
 
 **License:** MIT
