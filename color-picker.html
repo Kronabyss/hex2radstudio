@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker Rectangle (RadStudio Color Code)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center">
+  <div class="picker-container bg-gray-800 p-8 rounded-2xl shadow-xl max-w-lg w-full text-gray-100">
+    <div class="mb-8">
+      <label class="block text-base font-bold mb-2">Hex to RadStudio Decimal:</label>
+      <div class="flex items-center gap-3">
+        <input type="text" id="hexInput" placeholder="#RRGGBB or #RGB" maxlength="7" class="w-32 px-2 py-1 rounded bg-gray-700 border border-gray-600 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <span id="hexToDecimal" class="text-lg font-bold text-blue-400"></span>
+      </div>
+    </div>
+    <div id="rectangle" class="w-full h-8 rounded-md border border-gray-700 shadow mb-8" style="overflow: hidden; position: relative;"></div>
+    <div class="mb-4 font-bold text-blue-300">BarColor</div>
+    <div class="mb-4 flex items-center gap-4">
+      <label class="flex items-center gap-2 text-sm">Color
+        <input type="color" id="colorInput1" value="#808080" class="w-8 h-8 p-0 border-0 bg-transparent">
+      </label>
+    </div>
+    <div class="flex gap-4 mb-4">
+      <label class="flex flex-col text-xs">R
+        <input type="number" id="r1" min="0" max="255" value="128" class="w-16 px-1 py-0.5 rounded bg-gray-700 border border-gray-600 text-gray-100">
+      </label>
+      <label class="flex flex-col text-xs">G
+        <input type="number" id="g1" min="0" max="255" value="128" class="w-16 px-1 py-0.5 rounded bg-gray-700 border border-gray-600 text-gray-100">
+      </label>
+      <label class="flex flex-col text-xs">B
+        <input type="number" id="b1" min="0" max="255" value="128" class="w-16 px-1 py-0.5 rounded bg-gray-700 border border-gray-600 text-gray-100">
+      </label>
+    </div>
+    <div class="flex gap-4 mb-4">
+      <label class="flex flex-col text-xs">H
+        <input type="range" id="h1" min="0" max="360" value="0" class="accent-blue-400">
+        <span id="hVal1" class="text-xs text-blue-300">0</span>
+      </label>
+      <label class="flex flex-col text-xs">S
+        <input type="range" id="s1" min="0" max="100" value="0" class="accent-blue-400">
+        <span id="sVal1" class="text-xs text-blue-300">0</span>
+      </label>
+      <label class="flex flex-col text-xs">L
+        <input type="range" id="l1" min="0" max="100" value="50" class="accent-blue-400">
+        <span id="lVal1" class="text-xs text-blue-300">50</span>
+      </label>
+    </div>
+    <div class="color-code text-blue-400 mb-8">BarColor Decimal value: <span id="colorValue1">0</span></div>
+    <hr class="border-gray-700 mb-8">
+    <div class="mb-4 font-bold text-pink-300">BarColorStop</div>
+    <div class="mb-4 flex items-center gap-4">
+      <label class="flex items-center gap-2 text-sm">Color
+        <input type="color" id="colorInput2" value="#808080" class="w-8 h-8 p-0 border-0 bg-transparent">
+      </label>
+    </div>
+    <div class="flex gap-4 mb-4">
+      <label class="flex flex-col text-xs">R
+        <input type="number" id="r2" min="0" max="255" value="128" class="w-16 px-1 py-0.5 rounded bg-gray-700 border border-gray-600 text-gray-100">
+      </label>
+      <label class="flex flex-col text-xs">G
+        <input type="number" id="g2" min="0" max="255" value="128" class="w-16 px-1 py-0.5 rounded bg-gray-700 border border-gray-600 text-gray-100">
+      </label>
+      <label class="flex flex-col text-xs">B
+        <input type="number" id="b2" min="0" max="255" value="128" class="w-16 px-1 py-0.5 rounded bg-gray-700 border border-gray-600 text-gray-100">
+      </label>
+    </div>
+    <div class="flex gap-4 mb-4">
+      <label class="flex flex-col text-xs">H
+        <input type="range" id="h2" min="0" max="360" value="0" class="accent-pink-400">
+        <span id="hVal2" class="text-xs text-pink-300">0</span>
+      </label>
+      <label class="flex flex-col text-xs">S
+        <input type="range" id="s2" min="0" max="100" value="0" class="accent-pink-400">
+        <span id="sVal2" class="text-xs text-pink-300">0</span>
+      </label>
+      <label class="flex flex-col text-xs">L
+        <input type="range" id="l2" min="0" max="100" value="50" class="accent-pink-400">
+        <span id="lVal2" class="text-xs text-pink-300">50</span>
+      </label>
+    </div>
+    <div class="color-code text-pink-400">BarColorStop Decimal value: <span id="colorValue2">0</span></div>
+  </div>
+    <script>
+        // Hex to RadStudio decimal converter
+        function hexToRadStudioDecimal(hex) {
+            if (!/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex)) return '';
+            if (hex[0] !== '#') hex = '#' + hex;
+            const [r, g, b] = hexToRgb(hex);
+            return (b * 256 * 256) + (g * 256) + r;
+        }
+        document.getElementById('hexInput').addEventListener('input', function() {
+            const val = this.value.trim();
+            const dec = hexToRadStudioDecimal(val);
+            document.getElementById('hexToDecimal').textContent = dec !== '' ? dec : '';
+        });
+        // Utility functions
+        function rgbToHex(r, g, b) {
+            return "#" + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join("");
+        }
+        function hexToRgb(hex) {
+            hex = hex.replace('#', '');
+            if (hex.length === 3) hex = hex.split('').map(x => x + x).join('');
+            const num = parseInt(hex, 16);
+            return [num >> 16, (num >> 8) & 255, num & 255];
+        }
+        function rgbToHsl(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            if (max === min) { h = s = 0; }
+            else {
+                let d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+        }
+        function hslToRgb(h, s, l) {
+            h /= 360; s /= 100; l /= 100;
+            let r, g, b;
+            if (s === 0) { r = g = b = l; }
+            else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                let p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+
+        // Main update function for both colors
+        function updateAll(from, which) {
+            // which: 1 for BarColor, 2 for BarColorStop
+            // from: 'rgb', 'hsl', 'color'
+            function getIds(suffix) {
+                return {
+                    r: document.getElementById('r'+suffix),
+                    g: document.getElementById('g'+suffix),
+                    b: document.getElementById('b'+suffix),
+                    h: document.getElementById('h'+suffix),
+                    s: document.getElementById('s'+suffix),
+                    l: document.getElementById('l'+suffix),
+                    color: document.getElementById('colorInput'+suffix),
+                    hVal: document.getElementById('hVal'+suffix),
+                    sVal: document.getElementById('sVal'+suffix),
+                    lVal: document.getElementById('lVal'+suffix),
+                    colorValue: document.getElementById('colorValue'+suffix)
+                };
+            }
+            function updateOne(suffix) {
+                let ids = getIds(suffix);
+                let r = parseInt(ids.r.value) || 0;
+                let g = parseInt(ids.g.value) || 0;
+                let b = parseInt(ids.b.value) || 0;
+                let h = parseInt(ids.h.value) || 0;
+                let s = parseInt(ids.s.value) || 0;
+                let l = parseInt(ids.l.value) || 0;
+                let hex = ids.color.value;
+                if (from === 'rgb' && which === suffix) {
+                    hex = rgbToHex(r, g, b);
+                    ids.color.value = hex;
+                    [h, s, l] = rgbToHsl(r, g, b);
+                    ids.h.value = h;
+                    ids.s.value = s;
+                    ids.l.value = l;
+                } else if (from === 'hsl' && which === suffix) {
+                    [r, g, b] = hslToRgb(h, s, l);
+                    ids.r.value = r;
+                    ids.g.value = g;
+                    ids.b.value = b;
+                    hex = rgbToHex(r, g, b);
+                    ids.color.value = hex;
+                } else if (from === 'color' && which === suffix) {
+                    [r, g, b] = hexToRgb(hex);
+                    ids.r.value = r;
+                    ids.g.value = g;
+                    ids.b.value = b;
+                    [h, s, l] = rgbToHsl(r, g, b);
+                    ids.h.value = h;
+                    ids.s.value = s;
+                    ids.l.value = l;
+                }
+                ids.hVal.textContent = h;
+                ids.sVal.textContent = s;
+                ids.lVal.textContent = l;
+                const colorValue = (b * 256 * 256) + (g * 256) + r;
+                ids.colorValue.textContent = colorValue;
+                return {r, g, b, hex};
+            }
+            // Always update both, but only sync the one that triggered
+            const color1 = updateOne('1');
+            const color2 = updateOne('2');
+            // Update rectangle gradient: vertical, BarColorStop at top and bottom, BarColor in the middle
+            document.getElementById('rectangle').style.background = `linear-gradient(180deg, ${color2.hex} 0%, ${color1.hex} 50%, ${color2.hex} 100%)`;
+        }
+        // Event listeners for BarColor
+        document.getElementById('r1').addEventListener('input', function() { updateAll('rgb', '1'); });
+        document.getElementById('g1').addEventListener('input', function() { updateAll('rgb', '1'); });
+        document.getElementById('b1').addEventListener('input', function() { updateAll('rgb', '1'); });
+        document.getElementById('h1').addEventListener('input', function() { updateAll('hsl', '1'); });
+        document.getElementById('s1').addEventListener('input', function() { updateAll('hsl', '1'); });
+        document.getElementById('l1').addEventListener('input', function() { updateAll('hsl', '1'); });
+        document.getElementById('colorInput1').addEventListener('input', function() { updateAll('color', '1'); });
+        // Event listeners for BarColorStop
+        document.getElementById('r2').addEventListener('input', function() { updateAll('rgb', '2'); });
+        document.getElementById('g2').addEventListener('input', function() { updateAll('rgb', '2'); });
+        document.getElementById('b2').addEventListener('input', function() { updateAll('rgb', '2'); });
+        document.getElementById('h2').addEventListener('input', function() { updateAll('hsl', '2'); });
+        document.getElementById('s2').addEventListener('input', function() { updateAll('hsl', '2'); });
+        document.getElementById('l2').addEventListener('input', function() { updateAll('hsl', '2'); });
+        document.getElementById('colorInput2').addEventListener('input', function() { updateAll('color', '2'); });
+        // Initialize
+        updateAll('rgb', '1');
+    </script>
+</body>
+</html>
