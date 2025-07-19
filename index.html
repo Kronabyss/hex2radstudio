@@ -6,8 +6,9 @@
     <title>Color Picker Rectangle (RadStudio Color Code)</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 min-h-screen flex items-center justify-center">
-  <div class="picker-container bg-gray-800 p-8 rounded-2xl shadow-xl max-w-lg w-full text-gray-100">
+<body class="bg-gray-900 min-h-screen flex flex-col items-center justify-center">
+  <div class="flex flex-col items-center justify-center min-h-screen w-full">
+    <div class="picker-container bg-gray-800 p-8 rounded-2xl shadow-xl max-w-lg w-full text-gray-100 mx-auto">
     <div class="mb-8">
       <label class="block text-base font-bold mb-2">Hex to RadStudio Decimal:</label>
       <div class="flex items-center gap-3">
@@ -81,6 +82,8 @@
       </label>
     </div>
     <div class="color-code text-pink-400">BarColorStop Decimal value: <span id="colorValue2">0</span></div>
+    </div>
+    <footer class="w-full text-center py-4 text-gray-500 text-xs mt-8">Created by Krona.Dev</footer>
   </div>
     <script>
         // Hex to RadStudio decimal converter
@@ -229,5 +232,4 @@
         updateAll('rgb', '1');
     </script>
 </body>
-  <footer class="w-full text-center py-4 text-gray-500 text-xs mt-8">Created by Krona.Dev</footer>
 </html>
