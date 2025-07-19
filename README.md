@@ -21,6 +21,9 @@ This is a modern, dark-themed web tool for picking and converting colors, design
 
 ## Usage
 
+
+This was mainly built for editing a Perfect World Launcher/Patcher that was built by Alexdnepro
+
 1. Open `color-picker.html` in your web browser.
 2. Use the color pickers, RGB, or HSL sliders to adjust BarColor and BarColorStop.
 3. The rectangle at the top will update to show a vertical gradient between your chosen colors.
